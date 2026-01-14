@@ -326,7 +326,7 @@ public class AsynchronousSearchPersistenceServiceIT extends AsynchronousSearchSi
                     newExpirationTime,
                     asResponse.getSearchResponse(),
                     null,
-                    null,
+                    asResponse.getProgress(),
                     originalUser
                 );
 
@@ -436,7 +436,7 @@ public class AsynchronousSearchPersistenceServiceIT extends AsynchronousSearchSi
             newExpirationTime,
             asResponse.getSearchResponse(),
             null,
-            null,
+            asResponse.getProgress(),
             null
         );
         persistenceService.updateExpirationTime(
