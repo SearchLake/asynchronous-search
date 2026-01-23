@@ -11,7 +11,7 @@ buildscript {
         distribution = 'oss-zip'
         opensearch_group = "org.opensearch"
         isSnapshot = "true" == System.getProperty("build.snapshot", "true")
-        opensearch_version = System.getProperty("opensearch.version", "3.2.0-SNAPSHOT")
+        opensearch_version = System.getProperty("opensearch.version", "3.5.0-SNAPSHOT")
         buildVersionQualifier = System.getProperty("build.version_qualifier", "")
         version_tokens = opensearch_version.tokenize('-')
         opensearch_build = version_tokens[0] + '.0'
@@ -29,8 +29,7 @@ buildscript {
         maven { url = uri("https://maven-central.storage-download.googleapis.com/maven2/") }
         mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
-        maven { url "https://central.sonatype.com/repository/maven-snapshots/" }
-        maven { url "https://aws.oss.sonatype.org/content/repositories/snapshots" }
+        maven { url "https://ci.opensearch.org/ci/dbc/snapshots/maven/" }
     }
 
     dependencies {
@@ -54,8 +53,7 @@ repositories {
     maven { url = uri("https://maven-central.storage-download.googleapis.com/maven2/") }
     mavenCentral()
     maven { url "https://plugins.gradle.org/m2/" }
-    maven { url "https://central.sonatype.com/repository/maven-snapshots/" }
-    maven { url "https://aws.oss.sonatype.org/content/repositories/snapshots" }
+    maven { url "https://ci.opensearch.org/ci/dbc/snapshots/maven/" }
 }
 apply plugin: 'java'
 apply plugin: 'jacoco'
@@ -110,10 +108,11 @@ publishing {
     repositories {
         maven {
             name = "Snapshots"
-            url = "https://central.sonatype.com/repository/maven-snapshots/"
-            credentials {
-                username "$System.env.SONATYPE_USERNAME"
-                password "$System.env.SONATYPE_PASSWORD"
+            url = System.getenv("MAVEN_SNAPSHOTS_S3_REPO")
+            credentials(AwsCredentials) {
+                accessKey = System.getenv("AWS_ACCESS_KEY_ID")
+                secretKey = System.getenv("AWS_SECRET_ACCESS_KEY")
+                sessionToken = System.getenv("AWS_SESSION_TOKEN")
             }
         }
 
@@ -294,7 +293,7 @@ When testing between major versions note that ONLY the latest minor release of t
 
 String bwcVersion = "2.20.0.0"
 String bwcVersionShort = bwcVersion.replaceAll(/\.0+$/, "")
-String nxtVersionShort = opensearch_version.replaceAll("-SNAPSHOT", "")
+String nxtVersionShort = opensearch_version
 
 String baseName = "asynSearchCluster"
 String bwcFilePath = "src/test/resources/org/opensearch/search/asynchronous/bwc/"
