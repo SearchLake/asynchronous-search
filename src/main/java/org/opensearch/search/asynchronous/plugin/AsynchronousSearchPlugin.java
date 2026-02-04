@@ -46,6 +46,7 @@ import org.opensearch.env.Environment;
 import org.opensearch.env.NodeEnvironment;
 import org.opensearch.indices.SystemIndexDescriptor;
 import org.opensearch.plugins.ActionPlugin;
+import org.opensearch.plugins.ExtensiblePlugin;
 import org.opensearch.plugins.Plugin;
 import org.opensearch.plugins.SystemIndexPlugin;
 import org.opensearch.repositories.RepositoriesService;
@@ -64,7 +65,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class AsynchronousSearchPlugin extends Plugin implements ActionPlugin, SystemIndexPlugin {
+public class AsynchronousSearchPlugin extends Plugin implements ActionPlugin, SystemIndexPlugin, ExtensiblePlugin {
 
     public static final String OPEN_DISTRO_ASYNC_SEARCH_GENERIC_THREAD_POOL_NAME = "opensearch_asynchronous_search_generic";
     public static final String LEGACY_OPENDISTRO_BASE_URI = "/_opendistro/_asynchronous_search";
