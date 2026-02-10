@@ -440,7 +440,7 @@ public class AsynchronousSearchPersistenceService {
     private Settings indexSettings() {
         return Settings.builder()
             .put(IndexMetadata.INDEX_NUMBER_OF_SHARDS_SETTING.getKey(), 5)
-            .put(IndexMetadata.INDEX_AUTO_EXPAND_REPLICAS_SETTING.getKey(), "0-0")
+            .put(IndexMetadata.INDEX_NUMBER_OF_REPLICAS_SETTING.getKey(), 0)
             .put(IndexMetadata.SETTING_PRIORITY, Integer.MAX_VALUE)
             .put(IndexMetadata.SETTING_INDEX_HIDDEN, true)
             .put(SETTING_INDEX_CODEC, BEST_COMPRESSION_CODEC)
